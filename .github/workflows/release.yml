@@ -1,0 +1,49 @@
+name: Build and publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Set release variables
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          "RELEASE_VERSION=$version" >> $env:GITHUB_ENV
+          "RELEASE_ARCHIVE=PKHeX-Gen7Expansion-${{ github.ref_name }}-win-x64.zip" >> $env:GITHUB_ENV
+
+      - name: Restore
+        run: dotnet restore PKHeX.sln
+
+      - name: Test expansion support
+        run: dotnet test Tests/PKHeX.Core.Tests/PKHeX.Core.Tests.csproj --configuration Release --no-restore --filter "FullyQualifiedName~Gen7ExpansionTests"
+
+      - name: Publish
+        run: dotnet publish PKHeX.WinForms/PKHeX.WinForms.csproj --configuration Release --runtime win-x64 --self-contained false --no-restore --output publish -p:Version=${{ env.RELEASE_VERSION }}
+
+      - name: Package
+        shell: pwsh
+        run: Compress-Archive -Path "publish\PKHeX-Gen7Expansion.exe" -DestinationPath $env:RELEASE_ARCHIVE
+
+      - name: Publish GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" "$env:RELEASE_ARCHIVE" --verify-tag --generate-notes --latest --title "PKHeX Gen7 Expansion ${{ github.ref_name }}"
