@@ -19,7 +19,7 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
         Initialize();
     }
 
-    public override bool HasPokeDex => true;
+    public override bool HasPokeDex => false;
 
     private void Initialize()
     {
@@ -30,13 +30,13 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
         ReloadBattleTeams();
     }
 
-    public override PersonalTable7 Personal => PersonalTable.USUM;
-    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_USUM;
+    public override PersonalTable7 Personal => PersonalTable.USUMExpansion;
+    public override ReadOnlySpan<ushort> HeldItems => ItemStorage7USUM.GetAllHeld();
     protected override SAV7USUM CloneInternal() => new(Data.ToArray());
-    public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
-    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
-    public override int MaxItemID => Legal.MaxItemID_7_USUM;
-    public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
+    public override ushort MaxMoveID => Gen7Expansion.MaxMoveID;
+    public override ushort MaxSpeciesID => Gen7Expansion.MaxSpeciesID;
+    public override int MaxItemID => Gen7Expansion.MaxItemID;
+    public override int MaxAbilityID => Gen7Expansion.MaxAbilityID;
 
     private const int boUU = SaveUtil.SIZE_G7USUM - 0x200;
 

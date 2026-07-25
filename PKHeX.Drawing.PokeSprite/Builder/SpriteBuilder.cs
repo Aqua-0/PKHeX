@@ -194,6 +194,9 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
 
     public Bitmap GetItemSprite(int item, EntityContext context)
     {
+        if (context is EntityContext.Gen7 && Gen7Expansion.IsItemID(item))
+            return (Bitmap?)Resources.ResourceManager.GetObject($"aitem_{GetExpansionItemSpriteID(item)}") ?? UnknownItem;
+
         var lump = HeldItemLumpUtil.GetIsLump(item, context);
         return lump switch
         {
@@ -202,6 +205,91 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
             _ => (Bitmap?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
         };
     }
+
+    private static int GetExpansionItemSpriteID(int item) => item switch
+    {
+        505 => 2642,
+        506 => 2644,
+        507 => 2645,
+        508 => 2586,
+        509 => 2647,
+        510 => 2648,
+        511 => 2650,
+        512 => 2638,
+        513 => 2640,
+        514 => 2641,
+        515 => 2577,
+        516 => 2579,
+        517 => 2584,
+        518 => 2643,
+        519 => 2646,
+        520 => 2649,
+        960 => 1880,
+        961 => 1777,
+        962 => 1879,
+        963 => 1103,
+        964 => 1104,
+        965 => 544,
+        966 => 1777,
+        967 => 1778,
+        968 => 2407,
+        969 => 2408,
+        970 => 2406,
+        971 => 1582,
+        972 => 1592,
+        973 => 1117,
+        974 => 1116,
+        975 => 1253,
+        976 => 1254,
+        977 => 1109,
+        978 => 1111,
+        979 => 1110,
+        980 => 1114,
+        981 => 1112,
+        982 => 1113,
+        983 => 1115,
+        984 => 312,
+        985 => 299,
+        986 => 1691,
+        987 => 238,
+        988 => 2344,
+        989 => 1861,
+        990 => 2345,
+        991 => 2402,
+        992 => 2403,
+        993 => 2404,
+        994 => 92,
+        995 => 2635,
+        996 => 2636,
+        997 => 2559,
+        998 => 2560,
+        999 => 2561,
+        1000 => 2562,
+        1001 => 2563,
+        1002 => 2564,
+        1003 => 2565,
+        1004 => 2566,
+        1005 => 2569,
+        1006 => 2570,
+        1007 => 2571,
+        1008 => 2572,
+        1009 => 2573,
+        1010 => 2574,
+        1011 => 2575,
+        1012 => 2576,
+        1013 => 2578,
+        1014 => 2580,
+        1015 => 2581,
+        1016 => 2582,
+        1017 => 2583,
+        1018 => 2585,
+        1019 => 2587,
+        1020 => 2637,
+        1021 => 2639,
+        1022 => 2567,
+        1023 => 2568,
+        _ => 0,
+    };
 
     private static Bitmap LayerOverImageShiny(Bitmap baseImage, Shiny shiny)
     {

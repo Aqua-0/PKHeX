@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <PackageId>PKHeX</PackageId>
-    <AssemblyName>PKHeX</AssemblyName>
+    <AssemblyName>PKHeX-Gen7Expansion</AssemblyName>
     <Description>Pokémon Save Editor</Description>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>

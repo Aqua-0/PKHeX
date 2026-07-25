@@ -44,6 +44,7 @@ public static class PersonalTable
     /// Personal Table used in <see cref="GameVersion.USUM"/>.
     /// </summary>
     public static readonly PersonalTable7 USUM = new(GetTable("uu"), Legal.MaxSpeciesID_7_USUM);
+    public static readonly PersonalTable7 USUMExpansion = new(GetTable("uu_expansion"), Gen7Expansion.MaxSpeciesID);
 
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.SM"/>.

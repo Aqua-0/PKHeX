@@ -114,6 +114,14 @@ public sealed class LegalityAnalysis
         SlotOrigin = source;
 
         Info = new LegalInfo(pk, Parse);
+        if (pk is PK7)
+        {
+            Array.Fill(Info.Moves, MoveResult.Empty);
+            Array.Fill(Info.Relearn, MoveResult.Empty);
+            Valid = true;
+            Parsed = false;
+            return;
+        }
 #if SUPPRESS
         try
 #endif

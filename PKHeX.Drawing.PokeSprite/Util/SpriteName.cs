@@ -32,6 +32,8 @@ public static class SpriteName
     {
         if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
             form = 0;
+        if (context is EntityContext.Gen7 && species == (ushort)Pikachu && form == 8)
+            form = 9;
 
         // Starting in Legends: Z-A, Xerneas no longer has two forms, and it transitions to what was then-considered Active Mode when it attacks
         // The in-game icon always displays it as active, so match that behavior here

@@ -85,7 +85,7 @@ public sealed class GameStrings : IBasicStrings
         // Current Generation strings
         natures = Get("natures");
         types = Get("types");
-        abilitylist = Get("abilities");
+        abilitylist = Gen7Expansion.ExpandAbilityNames(Get("abilities"));
 
         movelist = Get("moves");
         // Differentiate Physical/Special Z-Moves
@@ -798,6 +798,7 @@ public sealed class GameStrings : IBasicStrings
         EntityContext.Gen2 => g2items,
         EntityContext.Gen3 => GetItemStrings3(version),
         EntityContext.Gen4 => g4items, // mail names changed 4->5
+        EntityContext.Gen7 when version is GameVersion.Any or GameVersion.US or GameVersion.UM or GameVersion.USUM => Gen7Expansion.ExpandItemNames(itemlist),
         EntityContext.Gen8b => GetItemStrings8b(),
         EntityContext.Gen9 => GetItemStrings9(),
         EntityContext.Gen9a => GetItemStrings9a(),

@@ -26,6 +26,15 @@ public static class FormConverter
     /// <returns>A list of strings corresponding to the forms that a Pokémon can have.</returns>
     public static string[] GetFormList(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
+        var result = GetFormListCore(species, types, forms, genders, context);
+        if (context is not Gen7 || !Gen7Expansion.HasFormOverrides(species))
+            return result;
+        var modern = GetFormListCore(species, types, forms, genders, Gen9a);
+        return Gen7Expansion.GetFormList(species, result, modern);
+    }
+
+    private static string[] GetFormListCore(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
+    {
         // Mega List
         if (context.IsMegaContext && IsFormListSingleMega(species, context))
             return GetMegaSingle(types, forms);

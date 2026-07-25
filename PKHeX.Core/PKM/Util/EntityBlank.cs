@@ -82,14 +82,14 @@ public static class EntityBlank
 
     public static PKM GetIdealBlank(ushort species, byte form)
     {
+        if (PersonalTable.USUMExpansion.IsPresentInGame(species, form))
+            return new PK7();
         if (PersonalTable.LA.IsPresentInGame(species, form))
             return new PA8();
         if (PersonalTable.SWSH.IsPresentInGame(species, form))
             return new PK8();
         if (PersonalTable.BDSP.IsPresentInGame(species, form))
             return new PB8();
-        if (PersonalTable.USUM.IsPresentInGame(species, form))
-            return new PK7();
         if (PersonalTable.SV.IsPresentInGame(species, form))
             return new PK9();
         if (PersonalTable.ZA.IsPresentInGame(species, form))

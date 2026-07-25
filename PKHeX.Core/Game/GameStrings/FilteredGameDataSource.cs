@@ -77,6 +77,9 @@ public sealed class FilteredGameDataSource
     // return a new list every time
     private static List<ComboItem> GetFilteredMoves(EntityContext context, GameDataSource source, bool HaX, ushort max)
     {
+        if (context is EntityContext.Gen7 && max == Gen7Expansion.MaxMoveID)
+            return source.HaXMoveDataSource.Where(m => m.Value <= max && Gen7Expansion.IsMoveAllowed((ushort)m.Value)).ToList();
+
         if (HaX)
             return source.HaXMoveDataSource.Where(m => m.Value <= max).ToList();
 

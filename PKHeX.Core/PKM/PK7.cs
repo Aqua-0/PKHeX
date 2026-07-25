@@ -16,7 +16,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     ];
 
     public override EntityContext Context => EntityContext.Gen7;
-    public override PersonalInfo7 PersonalInfo => PersonalTable.USUM.GetFormEntry(Species, Form);
+    public override PersonalInfo7 PersonalInfo => PersonalTable.USUMExpansion.GetFormEntry(Species, Form);
 
     public PK7() : base(PokeCrypto.SIZE_6PARTY) { }
     public PK7(Memory<byte> data) : base(DecryptParty(data)) { }
@@ -90,7 +90,15 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => WriteUInt32LittleEndian(Data[0x10..], value);
     }
 
-    public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
+    public override int Ability
+    {
+        get => Data[0x14] | ((Data[0x15] & 0x10) << 4);
+        set
+        {
+            Data[0x14] = (byte)value;
+            Data[0x15] = (byte)((Data[0x15] & ~0x10) | ((value & 0x100) >> 4));
+        }
+    }
     public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)((Data[0x15] & ~7) | (value & 7)); }
     public ushort MarkingValue { get => ReadUInt16LittleEndian(Data[0x16..]); set => WriteUInt16LittleEndian(Data[0x16..], value); }
 
@@ -504,10 +512,10 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     }
 
     // Maximums
-    public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
-    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
-    public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
-    public override int MaxItemID => Legal.MaxItemID_7_USUM;
+    public override ushort MaxMoveID => Gen7Expansion.MaxMoveID;
+    public override ushort MaxSpeciesID => Gen7Expansion.MaxSpeciesID;
+    public override int MaxAbilityID => Gen7Expansion.MaxAbilityID;
+    public override int MaxItemID => Gen7Expansion.MaxItemID;
     public override int MaxBallID => Legal.MaxBallID_7;
     public override GameVersion MaxGameID => Legal.MaxGameID_7;
 

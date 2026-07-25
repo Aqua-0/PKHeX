@@ -10,6 +10,9 @@ public sealed class ItemStorage7USUM : IItemStorage
 {
     public static readonly ItemStorage7USUM Instance = new();
 
+    private static readonly ushort[] GeneralExpansion = [..ItemStorage7SM.General, ..Gen7Expansion.GeneralItemIDs];
+    public static ReadOnlySpan<ushort> General => GeneralExpansion;
+
     public static ReadOnlySpan<ushort> Key =>
     [
         216,
@@ -19,6 +22,7 @@ public sealed class ItemStorage7USUM : IItemStorage
         841, 842, 843, 845, 847, 850, 857, 858, 860,
         // US/UM
         933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
+        Gen7Expansion.ReinsOfUnity,
     ];
 
     public static ReadOnlySpan<ushort> Roto =>
@@ -73,7 +77,7 @@ public sealed class ItemStorage7USUM : IItemStorage
             return true;
 
         var items = GetItems(type);
-        if (items.BinarySearch((ushort)itemIndex) < 0)
+        if (!items.Contains((ushort)itemIndex))
             return false;
 
         return itemCount != 0 && Unreleased.BinarySearch((ushort)itemIndex) < 0;

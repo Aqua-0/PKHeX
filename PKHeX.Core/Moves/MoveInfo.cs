@@ -34,7 +34,7 @@ public static class MoveInfo
         Gen4 => MoveInfo4.PP,
         Gen5 => MoveInfo5.PP,
         Gen6 => MoveInfo6.PP,
-        Gen7 => MoveInfo7.PP,
+        Gen7 => MoveInfo7Expansion.PP,
         Gen8 => MoveInfo8.PP,
         Gen9 => MoveInfo9.PP,
 
@@ -232,6 +232,7 @@ public static class MoveInfo
     {
         Gen1 => MoveInfo1.Type, // Bite, Gust, Karate Chop, Sand Attack
         >= Gen2 and <= Gen5 => MoveInfo5.Type, // Charm, Moonlight, Sweet Kiss
+        Gen7 => MoveInfo7Expansion.Type,
         Gen9a => MoveInfo9a.Type, // Normal in S/V, Grass in Z-A
         _ => MoveInfo9.Type,
     };

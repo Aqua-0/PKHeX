@@ -316,5 +316,11 @@ public enum Ability : ushort
     TeraShell,
     TeraformZero,
     PoisonPuppeteer,
+    PiercingDrill,
+    Dragonize,
+    MegaSol,
+    SpicySpray,
+    Eelevate,
+    FireMane,
     MAX_COUNT,
 }
